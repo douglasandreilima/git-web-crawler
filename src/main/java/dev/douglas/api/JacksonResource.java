@@ -1,4 +1,4 @@
-package dev.douglas.resteasyjackson;
+package dev.douglas.api;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
