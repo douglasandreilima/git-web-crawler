@@ -1,12 +1,13 @@
 package dev.douglas.api.info;
 
 import java.util.List;
+import java.util.Map;
 
 public class GitWebCralwerResponse {
 
 	private String urlRepository;
 
-	private List<GitWebCralwerItem> files;
+	private Map<String, List<GitWebCralwerItem>> files;
 
 	public String getUrlRepository() {
 		return urlRepository;
@@ -16,11 +17,11 @@ public class GitWebCralwerResponse {
 		this.urlRepository = urlRepository;
 	}
 
-	public List<GitWebCralwerItem> getFiles() {
+	public Map<String, List<GitWebCralwerItem>> getFiles() {
 		return files;
 	}
 
-	public void setFiles(final List<GitWebCralwerItem> files) {
+	public void setFiles(final Map<String, List<GitWebCralwerItem>> files) {
 		this.files = files;
 	}
 
