@@ -6,11 +6,11 @@ import java.util.function.Predicate;
 import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class GitUrlValidator implements Predicate<URL> {
+public class GitUrlRepositoryValidator implements Predicate<URL> {
 
 	@Override
 	public boolean test(final URL url) {
-		return url.getHost().contains("github");
+		return url.toExternalForm().matches(".*github.com/.*/.+");
 	}
 
 }
