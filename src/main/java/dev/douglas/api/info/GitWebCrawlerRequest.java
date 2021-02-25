@@ -2,6 +2,9 @@ package dev.douglas.api.info;
 
 import javax.validation.constraints.NotNull;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public class GitWebCrawlerRequest {
 
 	@NotNull

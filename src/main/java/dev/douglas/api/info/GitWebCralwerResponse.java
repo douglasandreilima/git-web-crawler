@@ -3,6 +3,9 @@ package dev.douglas.api.info;
 import java.util.List;
 import java.util.Map;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public class GitWebCralwerResponse {
 
 	private String urlRepository;

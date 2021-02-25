@@ -2,6 +2,9 @@ package dev.douglas.api.info;
 
 import java.time.Instant;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public class Message {
 
 	private final Instant time;

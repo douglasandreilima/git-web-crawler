@@ -1,5 +1,8 @@
 package dev.douglas.api.info;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public class GitWebCralwerItem {
 
 	private String fileName;
