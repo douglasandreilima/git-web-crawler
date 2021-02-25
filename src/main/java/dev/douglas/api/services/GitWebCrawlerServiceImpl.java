@@ -49,10 +49,11 @@ public class GitWebCrawlerServiceImpl implements GitWebCrawlerService {
 	@Inject
 	ContentPageFetcherService contentPageFetcherService;
 
-	private final Cache<URL, GitWebCralwerResponse> gitWebCrawlerResponseCache;
+	private final Cache<String, GitWebCralwerResponse> gitWebCrawlerResponseCache;
 
 	public GitWebCrawlerServiceImpl() {
-		gitWebCrawlerResponseCache = CacheBuilder.newBuilder().expireAfterWrite(Duration.ofHours(1)).build();
+		gitWebCrawlerResponseCache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(Duration.ofMinutes(30))
+				.build();
 	}
 
 	@Override
@@ -64,7 +65,7 @@ public class GitWebCrawlerServiceImpl implements GitWebCrawlerService {
 				throw new BadRequestException("Invalid parameter URL - only accept github repository url");
 			}
 
-			return gitWebCrawlerResponseCache.get(url, new Callable<GitWebCralwerResponse>() {
+			return gitWebCrawlerResponseCache.get(url.toExternalForm(), new Callable<GitWebCralwerResponse>() {
 
 				@Override
 				public GitWebCralwerResponse call() throws Exception {

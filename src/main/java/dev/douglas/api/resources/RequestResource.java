@@ -26,6 +26,7 @@ public class RequestResource {
 	@Inject
 	GitWebCrawlerService gitWebCrawlerService;
 
+	@GET
 	public Response goToSwaggerUi() throws URISyntaxException {
 		return Response.temporaryRedirect(new URI("/swagger-ui")).build();
 	}
