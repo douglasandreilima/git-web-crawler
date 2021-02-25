@@ -52,12 +52,15 @@ If you want to learn more about building native executables, please consult http
   Get to http://localhost:8080/request?url=https://github.com/douglasandreilima/data-structure-js
   
   OR Post to http://localhost:8080/request
+  ```
   {
     "url": "string"
   }
+  ```
   
   Response:
   
+  ```
   {
   "files": {
     "additionalProp1": [
@@ -81,7 +84,7 @@ If you want to learn more about building native executables, please consult http
   },
   "urlRepository": "string"
 }
-
+```
 
 
 
