@@ -45,14 +45,43 @@ You can then execute your native executable with: `./target/git-web-crawler-1.0.
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.html.
 
-## Related guides
 
-- SmallRye OpenAPI ([guide](https://quarkus.io/guides/openapi-swaggerui)): Document your REST APIs with OpenAPI - comes with Swagger UI
+## Examples
 
-## Provided examples
+### Request:
+  Get to http://localhost:8080/request?url=https://github.com/douglasandreilima/data-structure-js
+  
+  OR Post to http://localhost:8080/request
+  {
+    "url": "string"
+  }
+  
+  Response:
+  
+  {
+  "files": {
+    "additionalProp1": [
+      {
+        "fileName": "string",
+        "totalLinesAndBytes": "string"
+      }
+    ],
+    "additionalProp2": [
+      {
+        "fileName": "string",
+        "totalLinesAndBytes": "string"
+      }
+    ],
+    "additionalProp3": [
+      {
+        "fileName": "string",
+        "totalLinesAndBytes": "string"
+      }
+    ]
+  },
+  "urlRepository": "string"
+}
 
-### RESTEasy JSON serialisation using Jackson
 
-This example demonstrate RESTEasy JSON serialisation by letting you list, add and remove quark types from a list. Quarked!
 
-[Related guide section...](https://quarkus.io/guides/rest-json#creating-your-first-json-rest-service)
+
