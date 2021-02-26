@@ -42,6 +42,13 @@ public class GitWebCrawlerServiceImpl implements GitWebCrawlerService {
 
 	private final static Logger LOG = LoggerFactory.getLogger(GitWebCrawlerServiceImpl.class);
 
+	private final static Cache<String, GitWebCralwerResponse> GIT_WEB_CRAWLER_RESPONSE_CACHE = CacheBuilder.newBuilder()
+			.maximumSize(1000).expireAfterWrite(Duration.ofHours(4)).build();
+
+	private static final BlockingQueue<URL> URLS_QUEUE = new LinkedBlockingDeque<>();
+
+	private static final BlockingQueue<URL> URLS_RUNNING_QUEUE = new ArrayBlockingQueue<>(10);
+
 	@Inject
 	GitUrlRepositoryValidator gitUrlValidator;
 
@@ -50,17 +57,6 @@ public class GitWebCrawlerServiceImpl implements GitWebCrawlerService {
 
 	@Inject
 	ContentPageFetcherService contentPageFetcherService;
-
-	private final Cache<String, GitWebCralwerResponse> gitWebCrawlerResponseCache;
-
-	private static final BlockingQueue<URL> URLS_QUEUE = new LinkedBlockingDeque<>();
-
-	private static final BlockingQueue<URL> URLS_RUNNING_QUEUE = new ArrayBlockingQueue<>(10);
-
-	public GitWebCrawlerServiceImpl() {
-		gitWebCrawlerResponseCache = CacheBuilder.newBuilder().maximumSize(1000).expireAfterWrite(Duration.ofHours(4))
-				.build();
-	}
 
 	@Override
 	public GitWebCralwerResponse calcLinesAndBytesAllFilesFromGitUrl(final String urlRequest) throws Exception {
@@ -71,7 +67,7 @@ public class GitWebCrawlerServiceImpl implements GitWebCrawlerService {
 				throw new BadRequestException("Invalid parameter URL - only accept github repository url");
 			}
 
-			final GitWebCralwerResponse response = gitWebCrawlerResponseCache.getIfPresent(url.toExternalForm());
+			final GitWebCralwerResponse response = GIT_WEB_CRAWLER_RESPONSE_CACHE.getIfPresent(url.toExternalForm());
 
 			if (response != null) {
 				return response;
@@ -101,7 +97,7 @@ public class GitWebCrawlerServiceImpl implements GitWebCrawlerService {
 
 				GitWebCralwerResponse response;
 				response = fetchGitHubFilesInfo(url);
-				gitWebCrawlerResponseCache.put(url.toExternalForm(), response);
+				GIT_WEB_CRAWLER_RESPONSE_CACHE.put(url.toExternalForm(), response);
 
 				URLS_RUNNING_QUEUE.remove(url);
 
@@ -156,6 +152,7 @@ public class GitWebCrawlerServiceImpl implements GitWebCrawlerService {
 				final URL linkUrl = new URL(url, urlPath);
 				links.add(linkUrl.toURI());
 			}
+
 			TimeUnit.MILLISECONDS.sleep(2);
 
 		} while (!links.isEmpty());
