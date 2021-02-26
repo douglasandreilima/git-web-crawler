@@ -7,6 +7,8 @@ public class GitWebCralwerItem {
 
 	private String fileName;
 
+	private String fileExtension;
+
 	private String totalLinesAndBytes;
 
 	public String getFileName() {
@@ -15,6 +17,14 @@ public class GitWebCralwerItem {
 
 	public void setFileName(final String fileName) {
 		this.fileName = fileName;
+	}
+
+	public String getFileExtension() {
+		return fileExtension;
+	}
+
+	public void setFileExtension(final String fileExtension) {
+		this.fileExtension = fileExtension;
 	}
 
 	public String getTotalLinesAndBytes() {
