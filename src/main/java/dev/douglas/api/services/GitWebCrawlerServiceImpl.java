@@ -58,7 +58,7 @@ public class GitWebCrawlerServiceImpl implements GitWebCrawlerService {
 	private static final BlockingQueue<URL> URLS_RUNNING_QUEUE = new ArrayBlockingQueue<>(10);
 
 	public GitWebCrawlerServiceImpl() {
-		gitWebCrawlerResponseCache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(Duration.ofMinutes(60))
+		gitWebCrawlerResponseCache = CacheBuilder.newBuilder().maximumSize(1000).expireAfterWrite(Duration.ofHours(4))
 				.build();
 	}
 
