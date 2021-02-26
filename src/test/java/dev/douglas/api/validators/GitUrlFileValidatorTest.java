@@ -8,11 +8,11 @@ import org.junit.jupiter.api.Test;
 
 class GitUrlFileValidatorTest {
 
-	static GitUrlFileValidator gitUrlFileValidator;
+	static GitUrlPossibleFileValidator gitUrlFileValidator;
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
-		gitUrlFileValidator = new GitUrlFileValidator();
+		gitUrlFileValidator = new GitUrlPossibleFileValidator();
 	}
 
 	@Test

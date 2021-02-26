@@ -33,7 +33,7 @@ import com.google.common.cache.CacheBuilder;
 
 import dev.douglas.api.info.GitWebCralwerItem;
 import dev.douglas.api.info.GitWebCralwerResponse;
-import dev.douglas.api.validators.GitUrlFileValidator;
+import dev.douglas.api.validators.GitUrlPossibleFileValidator;
 import dev.douglas.api.validators.GitUrlRepositoryValidator;
 import io.quarkus.scheduler.Scheduled;
 
@@ -46,14 +46,14 @@ public class GitWebCrawlerServiceImpl implements GitWebCrawlerService {
 	GitUrlRepositoryValidator gitUrlValidator;
 
 	@Inject
-	GitUrlFileValidator gitUrlFileValidator;
+	GitUrlPossibleFileValidator gitUrlPossibleFileValidator;
 
 	@Inject
 	ContentPageFetcherService contentPageFetcherService;
 
 	private final Cache<String, GitWebCralwerResponse> gitWebCrawlerResponseCache;
 
-	private static final BlockingQueue<URL> URLS_PROCESSING_QUEUE = new LinkedBlockingDeque<>();
+	private static final BlockingQueue<URL> URLS_QUEUE = new LinkedBlockingDeque<>();
 
 	private static final BlockingQueue<URL> URLS_RUNNING_QUEUE = new ArrayBlockingQueue<>(10);
 
@@ -77,8 +77,8 @@ public class GitWebCrawlerServiceImpl implements GitWebCrawlerService {
 				return response;
 			}
 
-			if (!URLS_PROCESSING_QUEUE.contains(url) && !URLS_RUNNING_QUEUE.contains(url)) {
-				URLS_PROCESSING_QUEUE.add(url);
+			if (!URLS_QUEUE.contains(url) && !URLS_RUNNING_QUEUE.contains(url)) {
+				URLS_QUEUE.add(url);
 			}
 
 			return GitWebCralwerResponse.newInstance(
@@ -94,7 +94,7 @@ public class GitWebCrawlerServiceImpl implements GitWebCrawlerService {
 
 		URL url = null;
 		try {
-			url = URLS_PROCESSING_QUEUE.poll();
+			url = URLS_QUEUE.poll();
 			if (url != null && !URLS_RUNNING_QUEUE.contains(url)) {
 				final Stopwatch stopwatch = Stopwatch.createStarted();
 				URLS_RUNNING_QUEUE.add(url);
@@ -108,6 +108,7 @@ public class GitWebCrawlerServiceImpl implements GitWebCrawlerService {
 				LOG.info("Processed url={} in {}", url, stopwatch.elapsed());
 			}
 		} catch (final Exception e) {
+			URLS_RUNNING_QUEUE.remove(url);
 			LOG.error("Error processing url={}", url, e);
 		}
 	}
@@ -135,7 +136,7 @@ public class GitWebCrawlerServiceImpl implements GitWebCrawlerService {
 			for (final Element element : select) {
 
 				final String urlPath = element.attr("href");
-				if (gitUrlFileValidator.test(urlPath)) {
+				if (gitUrlPossibleFileValidator.test(urlPath)) {
 
 					final Optional<GitWebCralwerItem> optionalItem = fetchFileItem(url, urlPath);
 
