@@ -124,10 +124,11 @@ public class GitWebCrawlerServiceImpl implements GitWebCrawlerService {
 
 		final Queue<URI> links = new LinkedList<>();
 		links.add(url.toURI());
+
 		do {
 
 			final Document dom = Jsoup.parse(contentPageFetcherService.fetchContentPage(links.poll()));
-			final Elements select = dom.select(".js-details-container .js-navigation-container .link-gray-dark");
+			final Elements select = dom.select(".js-details-container .js-navigation-open[data-pjax]");
 
 			for (final Element element : select) {
 
