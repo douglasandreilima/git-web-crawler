@@ -16,35 +16,38 @@ If you want to learn more about Quarkus, please visit its website: https://quark
   OR Post to http://localhost:8080/request
   ```
   {
-    "url": "string"
+    "url": "https://github.com/douglasandreilima/data-structure-js"
   }
   ```
   
   Response:
   
   ```
-  {
+{
+  "urlRepository": "https://github.com/douglasandreilima/data-structure-js",
   "files": {
-    "additionalProp1": [
+    "md": [
       {
-        "fileName": "string",
-        "totalLinesAndBytes": "string"
+        "fileName": "README.md",
+        "fileExtension": "md",
+        "totalLinesAndBytes": "3 lines (2 sloc) 105 Bytes"
       }
     ],
-    "additionalProp2": [
+    "js": [
       {
-        "fileName": "string",
-        "totalLinesAndBytes": "string"
+        "fileName": "Stack.js",
+        "fileExtension": "js",
+        "totalLinesAndBytes": "97 lines (67 sloc) 1.63 KB"
       }
     ],
-    "additionalProp3": [
+    "html": [
       {
-        "fileName": "string",
-        "totalLinesAndBytes": "string"
+        "fileName": "index.html",
+        "fileExtension": "html",
+        "totalLinesAndBytes": "13 lines (13 sloc) 344 Bytes"
       }
     ]
-  },
-  "urlRepository": "string"
+  }
 }
 ```
 
